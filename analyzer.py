@@ -31,7 +31,6 @@ def analyze_events(events):
 
     return result
 
-
 if __name__ == "__main__":
 
     events = [
