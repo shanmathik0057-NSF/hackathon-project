@@ -2,23 +2,38 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-@app.route("/", methods=["GET"])
+events = []
+
+
+@app.route("/")
 def home():
     return jsonify({
         "message": "BugLens Backend is running"
     })
 
+
 @app.route("/events", methods=["POST"])
 def receive_event():
     data = request.get_json()
 
-    print("Received event:", data)
+    if not data:
+        return jsonify({
+            "error": "No event data received"
+        }), 400
+
+    events.append(data)
 
     return jsonify({
-        "status": "success",
-        "message": "Event received",
+        "message": "Event received successfully",
         "event": data
-    }), 200
+    }), 201
+
+
+@app.route("/events", methods=["GET"])
+def get_events():
+    return jsonify(events)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
