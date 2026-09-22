@@ -1,6 +1,7 @@
 from event_parser import load_events, extract_event_names
 from rules import get_failure_description
 from explanation import generate_explanation
+from root_cause import detect_root_cause
 
 
 def analyze_events(events):
@@ -32,7 +33,16 @@ def analyze_events(events):
 
     for explanation in explanations:
         print("→", explanation)
+    
+    #ROOT CAUSE SECTION
+    print("\nROOT CAUSE")
+    print("--------------------------------------")
 
+    result = detect_root_cause(events)
+
+    print("Cause:", result["cause"])
+    print("Severity:", result["severity"])
+    print("Confidence:", result["confidence"])
 
 event_data = load_events("events.json")
 
