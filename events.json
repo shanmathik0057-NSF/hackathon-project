@@ -1,0 +1,26 @@
+[
+    {
+        "timestamp": "10:30:01",
+        "event": "PAY_CLICK"
+    },
+    {
+        "timestamp": "10:30:02",
+        "event": "PAYMENT_REQUEST"
+    },
+    {
+        "timestamp": "10:30:04",
+        "event": "HTTP_500"
+    },
+    {
+        "timestamp": "10:30:05",
+        "event": "RETRY"
+    },
+    {
+        "timestamp": "10:30:07",
+        "event": "STATE_MISMATCH"
+    },
+    {
+        "timestamp": "10:30:10",
+        "event": "CHECKOUT_STUCK"
+    }
+]

@@ -1,3 +1,4 @@
+from event_parser import load_events, extract_event_names
 from rules import get_failure_description
 from explanation import generate_explanation
 
@@ -33,13 +34,8 @@ def analyze_events(events):
         print("→", explanation)
 
 
-events = [
-    "PAY_CLICK",
-    "PAYMENT_REQUEST",
-    "HTTP_500",
-    "RETRY",
-    "STATE_MISMATCH",
-    "CHECKOUT_STUCK"
-]
+event_data = load_events("events.json")
+
+events = extract_event_names(event_data)
 
 analyze_events(events)
