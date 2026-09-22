@@ -1,4 +1,3 @@
-from event_parser import load_events, extract_event_names
 from rules import get_failure_description
 from explanation import generate_explanation
 from root_cause import detect_root_cause
@@ -6,46 +5,72 @@ from root_cause import detect_root_cause
 
 def analyze_events(events):
 
-    print("======================================")
-    print("          BUGLENS ANALYZER")
-    print("======================================")
-
-    print("\nEVENT TIMELINE")
-    print("--------------------------------------")
-
-    for index, event in enumerate(events, start=1):
-        print(f"{index}. {event}")
-
-    print("\nFAILURES DETECTED")
-    print("--------------------------------------")
+    failures = []
 
     for event in events:
 
         description = get_failure_description(event)
 
         if description != "Unknown event":
-            print(f"⚠ {event}: {description}")
 
-    print("\nBUG EXPLANATION")
-    print("--------------------------------------")
+            failures.append({
+                "event": event,
+                "description": description
+            })
 
     explanations = generate_explanation(events)
 
-    for explanation in explanations:
+    root_cause = detect_root_cause(events)
+
+    result = {
+        "events": events,
+        "failures": failures,
+        "explanation": explanations,
+        "root_cause": root_cause
+    }
+
+    return result
+
+
+if __name__ == "__main__":
+
+    events = [
+        "PAY_CLICK",
+        "PAYMENT_REQUEST",
+        "HTTP_500",
+        "RETRY",
+        "STATE_MISMATCH",
+        "CHECKOUT_STUCK"
+    ]
+
+    result = analyze_events(events)
+
+    print("\nBUGLENS ANALYSIS RESULT")
+    print("=" * 40)
+
+    print("\nFAILURES:")
+
+    for failure in result["failures"]:
+        print(
+            failure["event"],
+            "→",
+            failure["description"]
+        )
+
+    print("\nEXPLANATION:")
+
+    for explanation in result["explanation"]:
         print("→", explanation)
-    
-    #ROOT CAUSE SECTION
-    print("\nROOT CAUSE")
-    print("--------------------------------------")
 
-    result = detect_root_cause(events)
+    print("\nROOT CAUSE:")
+    print(result["root_cause"]["cause"])
 
-    print("Cause:", result["cause"])
-    print("Severity:", result["severity"])
-    print("Confidence:", result["confidence"])
+    print(
+        "Severity:",
+        result["root_cause"]["severity"]
+    )
 
-event_data = load_events("events.json")
-
-events = extract_event_names(event_data)
-
-analyze_events(events)
+    print(
+        "Confidence:",
+        result["root_cause"]["confidence"]
+    )
