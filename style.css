@@ -1,1 +1,12 @@
+console.log("BugLens Dashboard Loaded");
 
+const events = [
+    "PAY_CLICK",
+    "PAYMENT_REQUEST",
+    "HTTP_500",
+    "RETRY",
+    "STATE_MISMATCH",
+    "CHECKOUT_STUCK"
+];
+
+console.log("Event Timeline:", events);
