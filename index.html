@@ -1,1 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BugLens Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 
+<body>
+
+    <header>
+        <h1>BUGLENS</h1>
+        <p>Don't Give Developers Another Replay. Give Them an Explanation.</p>
+    </header>
+
+    <main>
+
+        <section class="failure">
+            <h2>⚠️ Probable Failure Point</h2>
+            <h3>Payment Response Handling</h3>
+            <p>
+                The payment request received an HTTP 500 error,
+                followed by a retry and state mismatch.
+            </p>
+        </section>
+
+        <section>
+            <h2>Supporting Evidence</h2>
+            <ul>
+                <li>HTTP_500</li>
+                <li>RETRY</li>
+                <li>STATE_MISMATCH</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Failure Chain</h2>
+
+            <div class="chain">
+                <div>API 500</div>
+                <span>↓</span>
+                <div>Retry</div>
+                <span>↓</span>
+                <div>State Mismatch</div>
+                <span>↓</span>
+                <div>Checkout Stuck</div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Event Timeline</h2>
+
+            <ol>
+                <li>PAY_CLICK</li>
+                <li>PAYMENT_REQUEST</li>
+                <li>HTTP_500</li>
+                <li>RETRY</li>
+                <li>STATE_MISMATCH</li>
+                <li>CHECKOUT_STUCK</li>
+            </ol>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
