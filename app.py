@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify
 
-app = Flask(__name__)
+from analyzer import analyze_events
 
-events = []
+app = Flask(__name__)
 
 
 @app.route("/")
@@ -13,27 +13,26 @@ def home():
 
 
 @app.route("/events", methods=["POST"])
-def receive_event():
+def receive_events():
+
     data = request.get_json()
 
     if not data:
         return jsonify({
-            "error": "No event data received"
+            "error": "No JSON data received"
         }), 400
 
-    events.append(data)
+    events = data.get("events")
 
-    return jsonify({
-        "message": "Event received successfully",
-        "event": data
-    }), 201
+    if not events:
+        return jsonify({
+            "error": "events field is required"
+        }), 400
 
+    result = analyze_events(events)
 
-@app.route("/events", methods=["GET"])
-def get_events():
-    return jsonify(events)
+    return jsonify(result), 200
 
 
 if __name__ == "__main__":
     app.run(debug=True)
-    
